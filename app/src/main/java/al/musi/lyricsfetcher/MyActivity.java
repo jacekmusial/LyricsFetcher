@@ -32,8 +32,12 @@ public class MyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other);
-
         //Button myButton = (Button) findViewById(R.id.button);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         File sdCardRoot = Environment.getExternalStorageDirectory();
         File dir = new File(sdCardRoot, "download");
@@ -69,11 +73,16 @@ public class MyActivity extends AppCompatActivity {
                 startActivity(new Intent(Settings.ACTION_SEARCH_SETTINGS));
                 break;
             case R.id.action_settings:
-                startActivity(new Intent(Settings.));
+                startActivity(new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS));
                 break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
