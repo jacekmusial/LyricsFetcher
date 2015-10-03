@@ -2,7 +2,10 @@
 <resources>
     <string name="app_name">Wyszukiwarka tekstów</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="action_search">Search</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="action_search">Szukaj</string>
+    <string name="artist">Wykonawca</string>
+    <string name="title">Tytuł utworu</string>
+    <string name="button">Szukaj</string>
 
 </resources>

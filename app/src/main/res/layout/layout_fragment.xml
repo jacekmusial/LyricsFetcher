@@ -1,8 +1,0 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-    <fragment class="al.musi.lyricsfetcher.DisplayLirycsFragment"
-        android:id="@+id/titles"
-        android:layout_width="match_parent" android:layout_height="match_parent"
-        tools:layout="@layout/abc_screen_simple" />
-</FrameLayout>
