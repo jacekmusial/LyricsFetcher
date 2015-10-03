@@ -7,5 +7,8 @@
     <string name="artist">Wykonawca</string>
     <string name="title">Tytuł utworu</string>
     <string name="button">Szukaj</string>
+    <string name="delete" translatable="false">Usuń</string>
+    <string name="reload" translatable="false">Odśwież</string>
+    <string name="save" translatable="false">Zapisz</string>
 
 </resources>

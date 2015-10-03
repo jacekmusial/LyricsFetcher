@@ -6,4 +6,7 @@
     <string name="artist">Name of artist</string>
     <string name="title">Title of song</string>
     <string name="button">Search</string>
+    <string name="reload" translatable="false">Reload</string>
+    <string name="save" translatable="false">Save</string>
+    <string name="delete" translatable="false">Delete</string>
 </resources>

@@ -1,9 +1,7 @@
 package al.musi.lyricsfetcher;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -61,20 +59,22 @@ public class MyActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_my, menu);
+        inflater.inflate(R.menu.viewer, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            //TODO add setting fragment
-            case R.id.action_settings:
-                startActivity(new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS));
+            //TODO implement
+            case R.id.reload_menu_item:
+                break;
+            case R.id.save_menu_item:
+                break;
+            case R.id.delete_menu_item:
                 break;
             default:
                 return super.onOptionsItemSelected(item);
         }
-        return true;
     }
 }
