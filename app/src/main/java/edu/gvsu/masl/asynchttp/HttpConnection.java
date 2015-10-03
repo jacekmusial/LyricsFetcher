@@ -1,20 +1,29 @@
 package edu.gvsu.masl.asynchttp;
 
-import java.io.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Handler;
+import android.os.Message;
 
-import org.apache.http.*;
-import org.apache.http.client.*;
-import org.apache.http.client.methods.*;
-import org.apache.http.entity.*;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.BufferedHttpEntity;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 
-import android.graphics.*;
-import android.os.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Asynchronous HTTP connections
- * 
+ *
  * @author Greg Zavitz & Joseph Roth
  */
 public class HttpConnection implements Runnable {
@@ -78,26 +87,26 @@ public class HttpConnection implements Runnable {
 		try {
 			HttpResponse response = null;
 			switch (method) {
-			case GET:
-				response = httpClient.execute(new HttpGet(url));
-				break;
-			case POST:
-				HttpPost httpPost = new HttpPost(url);
-				httpPost.setEntity(new StringEntity(data));
-				response = httpClient.execute(httpPost);
-				break;
-			case PUT:
-				HttpPut httpPut = new HttpPut(url);
-				httpPut.setEntity(new StringEntity(data));
-				response = httpClient.execute(httpPut);
-				break;
-			case DELETE:
-				response = httpClient.execute(new HttpDelete(url));
-				break;
-			case BITMAP:
-				response = httpClient.execute(new HttpGet(url));
-				processBitmapEntity(response.getEntity());
-				break;
+				case GET:
+					response = httpClient.execute(new HttpGet(url));
+					break;
+				case POST:
+					HttpPost httpPost = new HttpPost(url);
+					httpPost.setEntity(new StringEntity(data));
+					response = httpClient.execute(httpPost);
+					break;
+				case PUT:
+					HttpPut httpPut = new HttpPut(url);
+					httpPut.setEntity(new StringEntity(data));
+					response = httpClient.execute(httpPut);
+					break;
+				case DELETE:
+					response = httpClient.execute(new HttpDelete(url));
+					break;
+				case BITMAP:
+					response = httpClient.execute(new HttpGet(url));
+					processBitmapEntity(response.getEntity());
+					break;
 			}
 			if (method < BITMAP)
 				processEntity(response.getEntity());
