@@ -9,13 +9,12 @@
         android:id="@+id/editTextArtist"
         android:layout_gravity="center_horizontal"
         android:hint="@string/artist"
-        android:text="@string/artist"/>
+        />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editTextTitle"
-        android:text="@string/title"
         android:hint="@string/title"/>
 
     <Button

@@ -10,5 +10,7 @@
     <string name="delete" translatable="false">Usuń</string>
     <string name="reload" translatable="false">Odśwież</string>
     <string name="save" translatable="false">Zapisz</string>
+    <string name="now_playing">Teraz leci</string>
+    <string name="wipe_lyrics">Czyść</string>
 
 </resources>

@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,21 +18,49 @@ public class MyActivity extends Activity {
      * lirycs fetching
      */
     private Button myButton;
+
+    /**
+     * text area below search fields and button
+     * used to display lyrics
+     */
     private TextView textView;
+
+    /**
+     * first search field
+     * contain name of artist/band
+     */
+    private EditText editTextArtist;
+
+    /**
+     * second search field
+     * contain title song
+     * TODO modify code so this variable can handle song/album/empty name.
+     * if empty then list some of popular song that is in {@see editTextArtist}
+     */
+    private EditText editTextTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //look for text fields
+        editTextArtist = (EditText) findViewById(R.id.editTextArtist);
+        editTextTitle = (EditText) findViewById(R.id.editTextTitle);
+
         //Watch for button clicks.
         myButton = (Button) findViewById(R.id.button);
         myButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getBaseContext(), "asdsa", Toast.LENGTH_SHORT).show();
-                textView = (TextView) findViewById(R.id.textViewLyrics);
-                textView.setText("adsasd");
+                if (editTextArtist.getText().toString().length() > 3 &&
+                        editTextTitle.getText().toString().length() > 3) {
+                    Toast.makeText(getBaseContext(), "asdsa", Toast.LENGTH_SHORT).show();
+
+                    textView = (TextView) findViewById(R.id.textViewLyrics);
+                    textView.setText("adsasd");
+                }
+
             }
         });
     }
@@ -76,5 +105,6 @@ public class MyActivity extends Activity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+        return true;
     }
 }
