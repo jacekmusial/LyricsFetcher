@@ -1,8 +1,12 @@
 package al.musi.lyricsfetcher;
 
+import android.app.Service;
+import android.content.Intent;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -18,7 +22,7 @@ import edu.gvsu.masl.asynchttp.HttpConnection;
 /**
  * Created by re on 2015-10-07.
  */
-public class AZLyricsProvider {
+public class AZLyricsProvider extends Service {
 
     private String mTitle;
     private String mArtist;
@@ -26,16 +30,23 @@ public class AZLyricsProvider {
 
     public static final String TAG = "AZLyricsProvider";
 
-    public AZLyricsProvider(String mTitle, String mArtist, String mLyrics) {
-        this.mTitle = mTitle;
-        this.mArtist = mArtist;
-        String url = "http://www.azlyrics.com//lyrics/";
-
-
+    public AZLyricsProvider() {
+        this.mTitle = findViewById(R.id.editTextArtist);
     }
 
-    public String removeSpaces(String str) {
-        return str;
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        this.mTitle = mTitle.replaceAll(" ", "");
+        this.mArtist = mArtist.replaceAll(" ", "");
+        String url = "http://www.azlyrics.com//lyrics/";
+
+        url += mArtist.replaceAll("\\W", "") + "/";
+        url += mTitle.replaceAll("\\W", "") + ".html";
+
+        Toast.makeText(getBaseContext(), url, Toast.LENGTH_LONG).show();
+
     }
 
     protected void getActualContent(String url) {
@@ -110,5 +121,10 @@ public class AZLyricsProvider {
 
         doLoad();
         return "[ AZLyrics - " + (title==null? "NULL":title) + " ]" + eol + lyrics;
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 }

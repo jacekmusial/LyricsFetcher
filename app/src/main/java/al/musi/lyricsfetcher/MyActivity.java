@@ -1,6 +1,7 @@
 package al.musi.lyricsfetcher;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,11 +57,11 @@ public class MyActivity extends Activity {
                 if (editTextArtist.getText().toString().length() > 3 &&
                         editTextTitle.getText().toString().length() > 3) {
                     Toast.makeText(getBaseContext(), "asdsa", Toast.LENGTH_SHORT).show();
-
                     textView = (TextView) findViewById(R.id.textViewLyrics);
                     textView.setText("adsasd");
+                    Intent serviceIntent = new Intent(this, AZLyricsProvider.class);
+                    startService(serviceIntent);
                 }
-
             }
         });
     }
