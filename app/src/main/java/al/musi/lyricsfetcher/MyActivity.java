@@ -1,8 +1,13 @@
 package al.musi.lyricsfetcher;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,31 +19,36 @@ import android.widget.Toast;
 
 public class MyActivity extends Activity {
 
-    /**
-     * main button, used to start up
-     * lyrics fetching
-     */
     private Button myButton;
-
-    /**
-     * first search field
-     * contain name of artist/band
-     */
     private EditText editTextArtist;
-
-    /**
-     * second search field
-     * contain title song
-     * TODO modify code so this variable can handle song/album/empty name.
-     * if empty then list some of popular song that is in {@see editTextArtist}
-     */
     private EditText editTextTitle;
-
-    /**
-     * text area below search fields and button
-     * used to display lyrics
-     */
     private TextView textView;
+    private String lyrics;
+
+    // Local broadcast
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            lyrics = intent.getStringExtra("message");
+            Log.d("receiver", "got message: " + lyrics);
+            Toast.makeText(MyActivity.this, lyrics, Toast.LENGTH_LONG).show();
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                broadcastReceiver, new IntentFilter("message"));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Unregister since the activity is paused.
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(
+                broadcastReceiver);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +59,9 @@ public class MyActivity extends Activity {
         editTextArtist = (EditText) findViewById(R.id.editTextArtist);
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver,
+                new IntentFilter("lyricsSearching"));
+
         //Watch for button clicks.
         myButton = (Button) findViewById(R.id.button);
         myButton.setOnClickListener(new View.OnClickListener() {
@@ -56,33 +69,16 @@ public class MyActivity extends Activity {
             public void onClick(View view) {
                 if (editTextArtist.getText().toString().length() > 3 &&
                         editTextTitle.getText().toString().length() > 3) {
+
                     Toast.makeText(getBaseContext(), "asdsa", Toast.LENGTH_SHORT).show();
                     textView = (TextView) findViewById(R.id.textViewLyrics);
                     textView.setText("adsasd");
-                    Intent serviceIntent = new Intent(this, AZLyricsProvider.class);
-                    startService(serviceIntent);
+
+                    //Intent serviceIntent = new Intent(this, AZLyricsProvider.class);
+                    //startService(serviceIntent);
                 }
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        /*//code to find files and display it by R.id.fajnedane
-        File sdCardRoot = Environment.getExternalStorageDirectory();
-        File dir = new File(sdCardRoot, "download");
-        Log.d("path: ", dir.toString());
-        // get filenames from dir path
-        FindFiles findFiles = new FindFiles();
-        ArrayList<String> nameOfFiles = findFiles.getFiles(dir.toString());
-        // and display it
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, nameOfFiles);
-        ListView listView = (ListView) findViewById(R.id.fajnedane);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(mMessageClickedHandler);*/
     }
 
     @Override

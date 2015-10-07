@@ -8,15 +8,6 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
-import org.jsoup.nodes.TextNode;
-import org.jsoup.parser.Parser;
-import org.jsoup.select.Elements;
-
-import java.util.List;
-
 import edu.gvsu.masl.asynchttp.HttpConnection;
 
 /**
@@ -30,14 +21,15 @@ public class AZLyricsProvider extends Service {
 
     public static final String TAG = "AZLyricsProvider";
 
-    public AZLyricsProvider() {
-        this.mTitle = findViewById(R.id.editTextArtist);
-    }
+    @Override
+    public IBinder onBind(Intent intent) { return null; }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return super.onStartCommand(intent, flags, startId);
+    }
 
+    protected void getActualContent() {
         this.mTitle = mTitle.replaceAll(" ", "");
         this.mArtist = mArtist.replaceAll(" ", "");
         String url = "http://www.azlyrics.com//lyrics/";
@@ -47,9 +39,6 @@ public class AZLyricsProvider extends Service {
 
         Toast.makeText(getBaseContext(), url, Toast.LENGTH_LONG).show();
 
-    }
-
-    protected void getActualContent(String url) {
         final String baseURL = url;
         Handler handler = new Handler(new Handler.Callback()  {
             public boolean handleMessage(Message message) {
@@ -68,10 +57,7 @@ public class AZLyricsProvider extends Service {
                         // TODO: try e.toString() maybe it gives more detail about the error
                         // Otherwise find a way to use printStackTrace()
                         Log.e(TAG, "Error: " + e.getMessage());
-
                         mLyrics = null;
-
-                        doError();
                         return false;
                     }
                     default: return false;
@@ -83,48 +69,15 @@ public class AZLyricsProvider extends Service {
     }
 
     private String parse(String response, String url) {
-        Document doc = Parser.parse(response, url);
+        //..its just works
+        String onlyLyrics = response.substring(
+                response.indexOf("Sorry about that. -->")+22,
+                response.length());
+        onlyLyrics = onlyLyrics.substring(0, onlyLyrics.indexOf("</div>"));
 
-        Element title_el = doc.select("html > head > title").first();
-        String title = null;
-        if (title_el == null) {
-            Log.w(TAG, "No title tag");
-        } else {
-            title = title_el.text();
-            title = title.replace(" LYRICS - ", " - ");
+        String z = "";
+        for (int i = 0; i < onlyLyrics.length(); i++) {
         }
-
-        Elements divs = doc.select("div#main div");
-        if (divs.size()<4) {
-            Log.e(TAG, "No body div");
-            doFail();
-            return null;
-        }
-        Element body = divs.get(3);
-
-        if (body == null) {
-            Log.e(TAG, "No lyrics div tag");
-            doFail();
-            return null;
-        }
-
-        String eol = System.getProperty("line.separator");
-        List<Node> els = body.childNodes();
-        String lyrics = "";
-        for (Node node : els) {
-            if (node instanceof TextNode) {
-                lyrics += ((TextNode) node).text();
-            } else {
-                lyrics += eol;
-            }
-        }
-
-        doLoad();
         return "[ AZLyrics - " + (title==null? "NULL":title) + " ]" + eol + lyrics;
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
     }
 }

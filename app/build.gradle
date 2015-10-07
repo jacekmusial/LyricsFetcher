@@ -20,5 +20,6 @@ android {
 
 dependencies {
     compile files('libs/jsoup-1.6.2.jar')
+    compile 'com.android.support:support-v4:19.0.+'
 
 }
