@@ -11,4 +11,5 @@
     <string name="delete">Delete</string>
     <string name="now_playing">Now playing</string>
     <string name="wipe_lyrics">Wipe</string>
+    <string name="service_start">Searching for lyrics..</string>
 </resources>

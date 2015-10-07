@@ -1,4 +1,4 @@
-package util;
+package al.musi.lyricsfetcher.util;
 
 import android.os.Handler;
 import android.os.Message;

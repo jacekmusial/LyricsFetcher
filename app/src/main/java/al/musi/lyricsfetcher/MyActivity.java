@@ -15,15 +15,9 @@ public class MyActivity extends Activity {
 
     /**
      * main button, used to start up
-     * lirycs fetching
+     * lyrics fetching
      */
     private Button myButton;
-
-    /**
-     * text area below search fields and button
-     * used to display lyrics
-     */
-    private TextView textView;
 
     /**
      * first search field
@@ -38,6 +32,12 @@ public class MyActivity extends Activity {
      * if empty then list some of popular song that is in {@see editTextArtist}
      */
     private EditText editTextTitle;
+
+    /**
+     * text area below search fields and button
+     * used to display lyrics
+     */
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

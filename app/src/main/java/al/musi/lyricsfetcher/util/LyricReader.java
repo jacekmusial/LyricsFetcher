@@ -1,4 +1,4 @@
-package util;
+package al.musi.lyricsfetcher.util;
 
 import android.os.Environment;
 import android.util.Log;
@@ -54,7 +54,7 @@ public class LyricReader {
 			Log.e(TAG, "File is not null. Cannot get lyrics file.");
 			return;
 		}
-		String filename = md5(mTrack.getArtist() + " - " + mTrack.getTitle());
+		String filename = md5(mTrack.getArtist() + " - " + mTrack.getTitle()); 
         mFile = new File(getLyricsDirectory(), filename + ".txt");
 	}
 	
@@ -185,7 +185,7 @@ public class LyricReader {
 	public static String md5(String s) {
 	    try {
 	        // Create MD5 Hash
-	        MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+	        MessageDigest digest = MessageDigest.getInstance("MD5");
 	        digest.update(s.getBytes());
 	        byte messageDigest[] = digest.digest();
 	        

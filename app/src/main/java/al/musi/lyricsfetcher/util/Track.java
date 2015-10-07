@@ -1,4 +1,4 @@
-package util;
+package al.musi.lyricsfetcher.util;
 
 public class Track {
 	

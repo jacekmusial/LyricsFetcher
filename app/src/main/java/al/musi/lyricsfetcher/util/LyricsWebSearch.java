@@ -1,4 +1,4 @@
-package util;
+package al.musi.lyricsfetcher.util;
 
 import android.content.Context;
 import android.content.Intent;

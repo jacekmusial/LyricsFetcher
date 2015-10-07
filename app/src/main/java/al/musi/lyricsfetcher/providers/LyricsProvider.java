@@ -7,8 +7,8 @@ import android.util.Log;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import util.Lyrics;
-import util.Track;
+import al.musi.lyricsfetcher.util.Lyrics;
+import al.musi.lyricsfetcher.util.Track;
 
 public abstract class LyricsProvider {
 

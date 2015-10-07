@@ -7,6 +7,15 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Light" >
+
+        <uses-permission android:name="android.permission.INTERNET" />
+        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+        <!-- our simple service : )
+                DAS IT MANE.jpg
+         -->
+        <service android:name=".LyricsSearch"/>
         <!-- Main activity -->
         <activity
             android:name=".MyActivity"

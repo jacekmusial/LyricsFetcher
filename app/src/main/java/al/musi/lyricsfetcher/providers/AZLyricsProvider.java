@@ -4,8 +4,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.jlyr.util.Track;
-
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
@@ -16,6 +14,7 @@ import org.jsoup.select.Elements;
 import java.util.List;
 
 import edu.gvsu.masl.asynchttp.HttpConnection;
+import util.Track;
 
 public  class  AZLyricsProvider extends DuckDuckGoProvider {
 

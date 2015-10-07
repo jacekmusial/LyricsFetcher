@@ -1,9 +1,19 @@
-package util;
+package al.musi.lyricsfetcher.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.jlyr.providers.AZLyricsProvider;
+import com.jlyr.providers.ChartLyricsProvider;
+import com.jlyr.providers.DarkLyricsProvider;
+import com.jlyr.providers.DummyProvider;
+import com.jlyr.providers.JamendoProvider;
+import com.jlyr.providers.LyrDbProvider;
+import com.jlyr.providers.LyricsProvider;
+import com.jlyr.providers.MetroLyricsProvider;
+import com.jlyr.providers.SongLyricsProvider;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -11,16 +21,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import al.musi.lyricsfetcher.providers.AZLyricsProvider;
-import al.musi.lyricsfetcher.providers.ChartLyricsProvider;
-import al.musi.lyricsfetcher.providers.DarkLyricsProvider;
-import al.musi.lyricsfetcher.providers.DummyProvider;
-import al.musi.lyricsfetcher.providers.JamendoProvider;
-import al.musi.lyricsfetcher.providers.LyrDbProvider;
-import al.musi.lyricsfetcher.providers.LyricsProvider;
-import al.musi.lyricsfetcher.providers.MetroLyricsProvider;
-import al.musi.lyricsfetcher.providers.SongLyricsProvider;
 
 public class ProvidersCollection {
 	private static final LinkedHashMap<String, Class<?>> map = new LinkedHashMap<String, Class<?>>() {
@@ -141,6 +141,6 @@ public class ProvidersCollection {
 	}
 	
 	static public List<String> getAll() {
-		return Arrays.asList(map.keySet().toArray(new String[0]));
+		return Arrays.asList(map.keySet().toArray(new String[0])); 
 	}
 }
