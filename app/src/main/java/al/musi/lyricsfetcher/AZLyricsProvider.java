@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,9 +27,12 @@ public class AZLyricsProvider extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        getActualContent();
-        Intent mIntent = new Intent();
-        mIntent.putExtra("message", mLyrics);
+        //getActualContent();
+        Log.d(TAG, "sending a broadcast");
+        Intent intent1 = new Intent("lyricSearching");
+        //mIntent.putExtra("message", mLyrics);
+        intent1.putExtra("message", "This is my message!");
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent1);
 
         return super.onStartCommand(intent, flags, startId);
     }

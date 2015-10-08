@@ -8,9 +8,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,15 +28,16 @@ public class MyActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             lyrics = intent.getStringExtra("message");
             Log.d("receiver", "got message: " + lyrics);
-            Toast.makeText(MyActivity.this, lyrics, Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), lyrics, Toast.LENGTH_LONG).show();
+            //textView.setText(lyrics);
         }
     };
 
     @Override
     protected void onResume() {
-        super.onResume();
         LocalBroadcastManager.getInstance(this).registerReceiver(
-                broadcastReceiver, new IntentFilter("message"));
+                broadcastReceiver, new IntentFilter("lyricSearching"));
+        super.onResume();
     }
 
     @Override
@@ -61,14 +59,11 @@ public class MyActivity extends Activity {
             public void onClick(View view) {
                 if (editTextArtist.getText().toString().length() > 3 &&
                         editTextTitle.getText().toString().length() > 3) {
-
-                    Toast.makeText(getBaseContext(), "asdsa", Toast.LENGTH_SHORT).show();
-                    textView = (TextView) findViewById(R.id.textViewLyrics);
-                    textView.setText("adsasd");
-
                     //launch lyrics search service
-                    Intent serviceIntent = new Intent(getBaseContext(), AZLyricsProvider.class);
-                    startService(serviceIntent);
+                    startService(new Intent(MyActivity.this, AZLyricsProvider.class));
+                    //Toast.makeText(getBaseContext(), "asdsa", Toast.LENGTH_SHORT).show();
+                    //textView = (TextView) findViewById(R.id.textViewLyrics);
+                    //textView.setText("adsasd");
                 }
             }
         });
@@ -76,13 +71,13 @@ public class MyActivity extends Activity {
 
     @Override
     protected void onPause() {
-        super.onPause();
         // Unregister since the activity is paused.
         LocalBroadcastManager.getInstance(this).unregisterReceiver(
                 broadcastReceiver);
+        super.onPause();
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
@@ -104,5 +99,5 @@ public class MyActivity extends Activity {
                 return super.onOptionsItemSelected(item);
         }
         return true;
-    }
+    }*/
 }
