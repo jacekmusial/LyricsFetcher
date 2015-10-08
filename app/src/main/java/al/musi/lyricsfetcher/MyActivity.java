@@ -60,7 +60,10 @@ public class MyActivity extends Activity {
                 if (editTextArtist.getText().toString().length() > 3 &&
                         editTextTitle.getText().toString().length() > 3) {
                     //launch lyrics search service
-                    startService(new Intent(MyActivity.this, AZLyricsProvider.class));
+                    Intent intent = new Intent(MyActivity.this, AZLyricsProvider.class);
+                    intent.putExtra("artist", editTextArtist.toString());
+                    intent.putExtra("title", editTextTitle.toString());
+                    startService(intent);
                     //Toast.makeText(getBaseContext(), "asdsa", Toast.LENGTH_SHORT).show();
                     //textView = (TextView) findViewById(R.id.textViewLyrics);
                     //textView.setText("adsasd");

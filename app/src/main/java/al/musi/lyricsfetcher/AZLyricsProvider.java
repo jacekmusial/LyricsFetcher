@@ -2,6 +2,7 @@ package al.musi.lyricsfetcher;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -27,17 +28,26 @@ public class AZLyricsProvider extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //getActualContent();
+        Bundle extras = intent.getExtras();
+
+        if (extras == null) {
+            Log.d(TAG, "nima");
+        }else {
+            mTitle = (String) extras.get("title");
+            mArtist = (String) extras.get("artist");
+        }
+        getActualContent();
         Log.d(TAG, "sending a broadcast");
         Intent intent1 = new Intent("lyricSearching");
-        //mIntent.putExtra("message", mLyrics);
-        intent1.putExtra("message", "This is my message!");
+        intent1.putExtra("message", mLyrics);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent1);
 
         return super.onStartCommand(intent, flags, startId);
     }
 
     protected void getActualContent() {
+        if (mTitle.length() < 0 || mArtist.length() < 0) { return; }
+
         this.mTitle = mTitle.replaceAll(" ", "");
         this.mArtist = mArtist.replaceAll(" ", "");
         String url = "http://www.azlyrics.com//lyrics/";
