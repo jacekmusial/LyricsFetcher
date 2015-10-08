@@ -77,8 +77,10 @@ public class AZLyricsProvider extends Service {
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            System.out.println(e.toString());
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println(e.toString());
         }
 
         Log.v(TAG, "Fetching url: " + baseURL);
