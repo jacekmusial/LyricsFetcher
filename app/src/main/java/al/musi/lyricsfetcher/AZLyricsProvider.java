@@ -3,14 +3,10 @@ package al.musi.lyricsfetcher;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
-
-import edu.gvsu.masl.asynchttp.HttpConnection;
 
 /**
  * Created by re on 2015-10-07.
@@ -30,13 +26,13 @@ public class AZLyricsProvider extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Bundle extras = intent.getExtras();
 
-        if (extras == null) {
-            Log.d(TAG, "nima");
-        }else {
-            mTitle = (String) extras.get("title");
-            mArtist = (String) extras.get("artist");
+        if (extras != null) {
+            mTitle = (String) extras.getString("title");
+            mArtist = (String) extras.getString("artist");
         }
+
         getActualContent();
+
         Log.d(TAG, "sending a broadcast");
         Intent intent1 = new Intent("lyricSearching");
         intent1.putExtra("message", mLyrics);
@@ -48,17 +44,18 @@ public class AZLyricsProvider extends Service {
     protected void getActualContent() {
         if (mTitle.length() < 0 || mArtist.length() < 0) { return; }
 
-        this.mTitle = mTitle.replaceAll(" ", "");
-        this.mArtist = mArtist.replaceAll(" ", "");
-        String url = "http://www.azlyrics.com//lyrics/";
+        String title = mTitle.replaceAll(" ", "").replaceAll("\\W", "");
+        String artist= mArtist.replaceAll(" ", "").replaceAll("\\W", "");
 
-        url += mArtist.replaceAll("\\W", "") + "/";
-        url += mTitle.replaceAll("\\W", "") + ".html";
+        Toast.makeText(AZLyricsProvider.this, artist+" "+title, Toast.LENGTH_LONG).show();
 
-        Toast.makeText(getBaseContext(), url, Toast.LENGTH_LONG).show();
-        Log.d(TAG, "url: " + url);
+        String u = "http://www.azlyrics.com/lyrics/";
+        String url = u + artist + title;
 
-        final String baseURL = url;
+        //Toast.makeText(getBaseContext(), url, Toast.LENGTH_LONG).show();
+        //Log.d(TAG, "url: " + url);
+
+       /*final String baseURL = url;
         Handler handler = new Handler(new Handler.Callback()  {
             public boolean handleMessage(Message message) {
                 switch (message.what) {
@@ -83,19 +80,20 @@ public class AZLyricsProvider extends Service {
                 }
             }
         });
+        Log.v(TAG, "Fetching url: " + baseURL);*/
         //new HttpConnection(handler).get(baseURL);
-        Log.v(TAG, "Fetching url: " + baseURL);
+
     }
 
     private String parse(String response, String url) {
         //..its just works
-        String onlyLyrics =response.substring(
+        String onlyLyrics = response.substring(
                 response.indexOf("Sorry about that. -->")+22,
                 response.length());
 
-        onlyLyrics = onlyLyrics.substring(0, onlyLyrics.indexOf("</div>"));
-        onlyLyrics = onlyLyrics.replaceAll("\"", "").replaceAll("<br>", "\n");
+        String a = onlyLyrics.substring(0, onlyLyrics.indexOf("</div>"));
+        String b = a.replaceAll("\"", "").replaceAll("<br>", "\n");
 
-        return onlyLyrics;
+        return b;
     }
 }
