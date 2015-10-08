@@ -26,6 +26,10 @@ public class AZLyricsProvider extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        getActualContent();
+        Intent mIntent = new Intent();
+        mIntent.putExtra("message", mLyrics);
+
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -38,6 +42,7 @@ public class AZLyricsProvider extends Service {
         url += mTitle.replaceAll("\\W", "") + ".html";
 
         Toast.makeText(getBaseContext(), url, Toast.LENGTH_LONG).show();
+        Log.d(TAG, "url: " + url);
 
         final String baseURL = url;
         Handler handler = new Handler(new Handler.Callback()  {
@@ -64,20 +69,19 @@ public class AZLyricsProvider extends Service {
                 }
             }
         });
-        new HttpConnection(handler).get(baseURL);
+        //new HttpConnection(handler).get(baseURL);
         Log.v(TAG, "Fetching url: " + baseURL);
     }
 
     private String parse(String response, String url) {
         //..its just works
-        String onlyLyrics = response.substring(
+        String onlyLyrics =response.substring(
                 response.indexOf("Sorry about that. -->")+22,
                 response.length());
-        onlyLyrics = onlyLyrics.substring(0, onlyLyrics.indexOf("</div>"));
 
-        String z = "";
-        for (int i = 0; i < onlyLyrics.length(); i++) {
-        }
-        return "[ AZLyrics - " + (title==null? "NULL":title) + " ]" + eol + lyrics;
+        onlyLyrics = onlyLyrics.substring(0, onlyLyrics.indexOf("</div>"));
+        onlyLyrics = onlyLyrics.replaceAll("\"", "").replaceAll("<br>", "\n");
+
+        return onlyLyrics;
     }
 }

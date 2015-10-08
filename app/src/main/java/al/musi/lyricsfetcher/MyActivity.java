@@ -43,14 +43,6 @@ public class MyActivity extends Activity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        // Unregister since the activity is paused.
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(
-                broadcastReceiver);
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -74,11 +66,20 @@ public class MyActivity extends Activity {
                     textView = (TextView) findViewById(R.id.textViewLyrics);
                     textView.setText("adsasd");
 
-                    //Intent serviceIntent = new Intent(this, AZLyricsProvider.class);
-                    //startService(serviceIntent);
+                    //launch lyrics search service
+                    Intent serviceIntent = new Intent(getBaseContext(), AZLyricsProvider.class);
+                    startService(serviceIntent);
                 }
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Unregister since the activity is paused.
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(
+                broadcastReceiver);
     }
 
     @Override

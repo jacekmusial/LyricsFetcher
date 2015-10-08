@@ -7,9 +7,9 @@
     <string name="artist">Wykonawca</string>
     <string name="title">Tytuł utworu</string>
     <string name="button">Szukaj</string>
-    <string name="delete" translatable="false">Usuń</string>
-    <string name="reload" translatable="false">Odśwież</string>
-    <string name="save" translatable="false">Zapisz</string>
+    <string name="delete" >Usuń</string>
+    <string name="reload" >Odśwież</string>
+    <string name="save" >Zapisz</string>
     <string name="now_playing">Teraz leci</string>
     <string name="wipe_lyrics">Czyść</string>
     <string name="service_start">Szukam tekstów..</string>
