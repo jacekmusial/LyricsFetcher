@@ -6,11 +6,16 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.widget.Toast;
 
-/**
- * Created by re on 2015-10-07.
- */
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class AZLyricsProvider extends Service {
 
     private String mTitle;
@@ -44,56 +49,48 @@ public class AZLyricsProvider extends Service {
     protected void getActualContent() {
         if (mTitle.length() < 0 || mArtist.length() < 0) { return; }
 
-        String title = mTitle.replaceAll(" ", "").replaceAll("\\W", "");
-        String artist= mArtist.replaceAll(" ", "").replaceAll("\\W", "");
+        String artist= mArtist.replaceAll(" ", "").replaceAll("\\W", "") + "/";
+        String title = mTitle.replaceAll(" ", "").replaceAll("\\W", "") + ".html";
 
-        Toast.makeText(AZLyricsProvider.this, artist+" "+title, Toast.LENGTH_LONG).show();
+        String u = "http://www.azlyrics.com/lyrics/" + artist + title;
+        Log.d(TAG, "url: " + u);
 
-        String u = "http://www.azlyrics.com/lyrics/";
-        String url = u + artist + title;
-
-        //Toast.makeText(getBaseContext(), url, Toast.LENGTH_LONG).show();
-        //Log.d(TAG, "url: " + url);
-
-       /*final String baseURL = url;
-        Handler handler = new Handler(new Handler.Callback()  {
-            public boolean handleMessage(Message message) {
-                switch (message.what) {
-                    case HttpConnection.DID_START: {
-                        Log.i(TAG, "Getting lyrics...");
-                        return true;
-                    }
-                    case HttpConnection.DID_SUCCEED: {
-                        String response = (String) message.obj;
-                        mLyrics = parse(response, baseURL);
-                        return true;
-                    }
-                    case HttpConnection.DID_ERROR: {
-                        Exception e = (Exception) message.obj;
-                        // TODO: try e.toString() maybe it gives more detail about the error
-                        // Otherwise find a way to use printStackTrace()
-                        Log.e(TAG, "Error: " + e.getMessage());
-                        mLyrics = null;
-                        return false;
-                    }
-                    default: return false;
+        final String baseURL = u;
+        try {
+            URL url = new URL(baseURL);
+            HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
+            Log.d(TAG, "??!?!");
+            try {
+                InputStream in = new BufferedInputStream(httpConnection.getInputStream());
+                //InputStream in = address.openStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                StringBuilder result = new StringBuilder();
+                String line;
+                Log.d(TAG, "@@@");
+                while((line = reader.readLine()) != null) {
+                    result.append(line);
                 }
+                Log.d(TAG, result.toString());
+                mLyrics = parse(result.toString(), baseURL);
+            } finally {
+                httpConnection.disconnect();
             }
-        });
-        Log.v(TAG, "Fetching url: " + baseURL);*/
-        //new HttpConnection(handler).get(baseURL);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+        Log.v(TAG, "Fetching url: " + baseURL);
     }
 
     private String parse(String response, String url) {
         //..its just works
         String onlyLyrics = response.substring(
                 response.indexOf("Sorry about that. -->")+22,
-                response.length());
-
-        String a = onlyLyrics.substring(0, onlyLyrics.indexOf("</div>"));
-        String b = a.replaceAll("\"", "").replaceAll("<br>", "\n");
-
-        return b;
+                response.length()-1);
+        onlyLyrics = onlyLyrics.substring(0, onlyLyrics.indexOf("</div>"));
+        onlyLyrics = onlyLyrics.replaceAll("\"", "").replaceAll("<br>", "\n");
+        return onlyLyrics;
     }
 }

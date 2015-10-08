@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MyActivity extends Activity {
 
@@ -28,8 +27,11 @@ public class MyActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             lyrics = intent.getStringExtra("message");
             Log.d("receiver", "got message: " + lyrics);
-            Toast.makeText(getBaseContext(), lyrics, Toast.LENGTH_LONG).show();
-            //textView.setText(lyrics);
+            //Toast.makeText(getBaseContext(), lyrics, Toast.LENGTH_LONG).show();
+            if (lyrics != null) {
+                textView = (TextView) findViewById(R.id.textViewLyrics);
+                textView.setText(lyrics);
+            }
         }
     };
 
@@ -66,7 +68,7 @@ public class MyActivity extends Activity {
                     startService(intent);
                     //Toast.makeText(getBaseContext(), "asdsa", Toast.LENGTH_SHORT).show();
                     //textView = (TextView) findViewById(R.id.textViewLyrics);
-                    //textView.setText("adsasd");
+
                 }
             }
         });
