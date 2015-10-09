@@ -59,7 +59,8 @@ public class AZLyricsProvider extends Service {
     }
 
     private String parse(String response, String url) {
-        //..its just works
+        //YOU STUPID
+        //WHAT'S NINE PLUS TEN?
         String onlyLyrics = response.substring(
                 response.indexOf("Sorry about that. -->")+21,
                 response.length()-1);
