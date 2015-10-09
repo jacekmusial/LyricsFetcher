@@ -24,14 +24,15 @@ public class AZLyricsProvider extends Service {
         if (extras != null) {
             mTitle = extras.getString("title");
             mArtist = extras.getString("artist");
+
+            mLyrics = getActualContent();
+
+            Log.v(TAG, "response: " + mLyrics);
+
+            Intent intent1 = new Intent("lyricSearching");
+            intent1.putExtra("message", mLyrics);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent1);
         }
-
-        getActualContent();
-
-        Intent intent1 = new Intent("lyricSearching");
-        intent1.putExtra("message", mLyrics);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent1);
-
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -45,13 +46,11 @@ public class AZLyricsProvider extends Service {
         Log.d(TAG, "url: " + u);
         final String url = u;
         String response = "ayy lmao";
-        HttpConnection httpConnection = new HttpConnection("http://google.com");
+        HttpConnection httpConnection = new HttpConnection(url);
 
         try {
             response = httpConnection.a();
             Log.v(TAG, "Fetching url: " + u);
-            Log.v(TAG, "response: " + response);
-
             return parse(response, url);
         } catch (Exception e) {
             Log.d(TAG, e.toString());
@@ -61,13 +60,11 @@ public class AZLyricsProvider extends Service {
 
     private String parse(String response, String url) {
         //..its just works
-        /*String onlyLyrics = response.substring(
-                response.indexOf("Sorry about that. -->")+22,
+        String onlyLyrics = response.substring(
+                response.indexOf("Sorry about that. -->")+21,
                 response.length()-1);
         onlyLyrics = onlyLyrics.substring(0, onlyLyrics.indexOf("</div>"));
         onlyLyrics = onlyLyrics.replaceAll("\"", "").replaceAll("<br>", "\n");
         return onlyLyrics;
-        */
-        return response;
     }
 }

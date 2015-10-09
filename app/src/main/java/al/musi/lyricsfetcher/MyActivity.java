@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MyActivity extends Activity {
 
@@ -47,20 +48,20 @@ public class MyActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                lyrics = intent.getStringExtra("message");
-                //Toast.makeText(getBaseContext(), lyrics, Toast.LENGTH_LONG).show();
+                Bundle extras = intent.getExtras();
+                lyrics = (String) extras.get("message");
+                Log.d("receiver", "its a message: " + lyrics);
                 if (lyrics != null) {
                     Log.d("receiver", "got message: " + lyrics);
+                    Toast.makeText(MyActivity.this, lyrics, Toast.LENGTH_SHORT).show();
                     textView = (TextView) findViewById(R.id.textViewLyrics);
                     textView.setText(lyrics);
                 }
             }
         };
-
         //look for text fields
         editTextArtist = (EditText) findViewById(R.id.editTextArtist);
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
