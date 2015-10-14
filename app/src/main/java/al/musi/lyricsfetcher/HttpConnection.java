@@ -22,6 +22,8 @@ public class HttpConnection
         URL obj = null;
         HttpURLConnection con = null;
         int numTries = 0;
+        String ret = null;
+
         while (numTries < MAX_RETRIES) {
             if (numTries != 0) {
                 Log.d(":", "Retry n°" + numTries);
@@ -48,7 +50,7 @@ public class HttpConnection
                     response.append(inputLine);
                 }
                 in.close();
-                return response.toString();
+                ret = response.toString();
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -58,6 +60,6 @@ public class HttpConnection
             }
             numTries++;
         }
-        return "?";
+        return ret;
     }
 }

@@ -17,6 +17,7 @@ import android.widget.Toast;
 public class MyActivity extends Activity {
 
     private Button myButton;
+    private Button browserButon;
     private EditText editTextArtist;
     private EditText editTextTitle;
     private TextView textView;
@@ -66,7 +67,11 @@ public class MyActivity extends Activity {
         editTextArtist = (EditText) findViewById(R.id.editTextArtist);
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
 
-        //Watch for button clicks.
+        //Watch for button 'browse lyrics' clicks.
+        browserButon = (Button) findViewById(R.id.browseButton);
+        //browserButon.setOnClickListener();
+
+        //Watch for button `search` clicks.
         myButton = (Button) findViewById(R.id.button);
         myButton.setOnClickListener(new View.OnClickListener() {
             @Override

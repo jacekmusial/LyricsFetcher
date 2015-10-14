@@ -12,4 +12,6 @@
     <string name="now_playing">Now playing</string>
     <string name="wipe_lyrics">Wipe</string>
     <string name="service_start">Searching for lyrics..</string>
+    <string name="Browse">Browse lyrics</string>
+    <string name="Horizontaline">horizontaline</string>
 </resources>

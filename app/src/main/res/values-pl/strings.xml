@@ -13,5 +13,7 @@
     <string name="now_playing">Teraz leci</string>
     <string name="wipe_lyrics">Czyść</string>
     <string name="service_start">Szukam tekstów..</string>
+    <string name="Browse">Browse lyrics</string>
+    <string name="Horizontaline">horizontaline</string>
 
 </resources>

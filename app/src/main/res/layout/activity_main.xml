@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <ImageView
+        android:layout_gravity="center_horizontal"
+        android:layout_height="26dp"
+        android:layout_width="5796dp"
+        android:src="@android:drawable/divider_horizontal_bright"
+        android:contentDescription="@string/Horizontaline" />
+
+    <Button
+        android:layout_width="214dp"
+        android:layout_height="wrap_content"
+        android:marginTop="35dp"
+        android:text="@string/Browse"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/browseButton" />
+
+    <ImageView
+        android:layout_gravity="center_horizontal"
+        android:layout_height="46dp"
+        android:layout_width="5796dp"
+        android:src="@android:drawable/divider_horizontal_bright"
+        android:contentDescription="@string/Horizontaline" />
 
     <EditText
         android:layout_width="match_parent"
@@ -18,7 +41,7 @@
         android:hint="@string/title"/>
 
     <Button
-        android:layout_width="137dp"
+        android:layout_width="152dp"
         android:layout_height="wrap_content"
         android:text="@string/button"
         android:id="@+id/button"
@@ -27,12 +50,12 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/scrollView"
-        android:layout_gravity="center_horizontal" >
+        android:id="@+id/scrollView">
         <TextView
             android:id="@+id/textViewLyrics"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
     </ScrollView>
 
 </LinearLayout>

@@ -39,23 +39,31 @@ public class AZLyricsProvider extends Service {
     protected String getActualContent() {
         if (mTitle.length() < 0 || mArtist.length() < 0) { return null; }
 
+        /**
+        * remove whitespaces, and all NON-words from artist&title
+         * to look like this:
+         * http://www.azlyrics.com/lyrics/metallica/entersandman.html
+         *                               ^artist^   ^title^
+        */
         String artist= mArtist.replaceAll(" ", "").replaceAll("\\W", "") + "/";
         String title = mTitle.replaceAll(" ", "").replaceAll("\\W", "") + ".html";
 
         String u = "http://www.azlyrics.com/lyrics/" + artist + title;
-        Log.d(TAG, "url: " + u);
         final String url = u;
-        String response = "ayy lmao";
+
+        Log.d(TAG, "url: " + u);
+
+        String response = null;
         HttpConnection httpConnection = new HttpConnection(url);
 
         try {
             response = httpConnection.a();
             Log.v(TAG, "Fetching url: " + u);
-            return parse(response, url);
+            response = parse(response, url);
         } catch (Exception e) {
             Log.d(TAG, e.toString());
         }
-        return response;
+        return response != null ? response : "" ;
     }
 
     private String parse(String response, String url) {
