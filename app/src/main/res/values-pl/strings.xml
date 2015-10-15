@@ -15,5 +15,6 @@
     <string name="service_start">Szukam tekstów..</string>
     <string name="Browse">Browse lyrics</string>
     <string name="Horizontaline">horizontaline</string>
+    <string name="clear">Czyść</string>
 
 </resources>

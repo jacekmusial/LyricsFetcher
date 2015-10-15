@@ -71,7 +71,7 @@ public class AZLyricsProvider extends Service {
         //WHAT'S NINE PLUS TEN?
         String onlyLyrics = response.substring(
                 response.indexOf("Sorry about that. -->")+21,
-                response.length()-1);
+                response.length());
         onlyLyrics = onlyLyrics.substring(0, onlyLyrics.indexOf("</div>"));
         onlyLyrics = onlyLyrics.replaceAll("\"", "").replaceAll("<br>", "\n");
         return onlyLyrics;

@@ -22,9 +22,10 @@ public class HttpConnection
         URL obj = null;
         HttpURLConnection con = null;
         int numTries = 0;
+        int responseCode = 0;
         String ret = null;
 
-        while (numTries < MAX_RETRIES) {
+        while (numTries < MAX_RETRIES && responseCode != 200) {
             if (numTries != 0) {
                 Log.d(":", "Retry n°" + numTries);
             }
@@ -38,7 +39,7 @@ public class HttpConnection
                 con.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
                 con.setRequestProperty("User-Agent", USER_AGENT);
 
-                int responseCode = con.getResponseCode();
+                responseCode = con.getResponseCode();
                 Log.d(":", "Sending 'GET' request to URL : " + url);
                 Log.d(":", "Response Code : " + responseCode);
 

@@ -7,17 +7,19 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MyActivity extends Activity {
 
     private Button myButton;
-    private Button browserButon;
+    private Button clearButton;
     private EditText editTextArtist;
     private EditText editTextTitle;
     private TextView textView;
@@ -26,6 +28,17 @@ public class MyActivity extends Activity {
 
     // Local broadcast
     private BroadcastReceiver broadcastReceiver;
+
+    public static void hide_keyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if(view == null) {
+            view = new View(activity);
+        }
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 
     @Override
     protected void onResume() {
@@ -57,7 +70,7 @@ public class MyActivity extends Activity {
                 Log.d("receiver", "its a message: " + lyrics);
                 if (lyrics != null) {
                     Log.d("receiver", "got message: " + lyrics);
-                    Toast.makeText(MyActivity.this, lyrics, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MyActivity.this, lyrics, Toast.LENGTH_SHORT).show();
                     textView = (TextView) findViewById(R.id.textViewLyrics);
                     textView.setText(lyrics);
                 }
@@ -67,25 +80,45 @@ public class MyActivity extends Activity {
         editTextArtist = (EditText) findViewById(R.id.editTextArtist);
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
 
-        //Watch for button 'browse lyrics' clicks.
-        browserButon = (Button) findViewById(R.id.browseButton);
-        //browserButon.setOnClickListener();
+        editTextArtist.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //TODO implement
+            }
+        });
 
         //Watch for button `search` clicks.
         myButton = (Button) findViewById(R.id.button);
         myButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (editTextArtist.getText().toString().length() > 3 &&
-                        editTextTitle.getText().toString().length() > 3) {
-                    //launch lyrics search service
-                    intent = new Intent(MyActivity.this, AZLyricsProvider.class);
-                    intent.putExtra("artist", editTextArtist.getText().toString());
-                    intent.putExtra("title", editTextTitle.getText().toString());
-                    startService(intent);
-                    //Toast.makeText(getBaseContext(), "asdsa", Toast.LENGTH_SHORT).show();
-                    //textView = (TextView) findViewById(R.id.textViewLyrics);
+                if (editTextArtist.getText().toString().length() > 2
+                    && editTextTitle.getText().length() > 0) {
+                        intent = new Intent(MyActivity.this, AZLyricsProvider.class);
+                        intent.putExtra("artist",
+                                editTextArtist.getText().toString().toLowerCase());
+                        intent.putExtra("title",
+                                editTextTitle.getText().toString().toLowerCase());
+                        startService(intent); // launch lyrics search service
+                        ((InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE))
+                            .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
                 }
+            }
+        });
+
+        clearButton = (Button) findViewById(R.id.buttonClear);
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editTextArtist.setText("");
+                editTextTitle.setText("");
+                textView.setText("");
             }
         });
     }

@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1" android:layout_alignParentBottom="true">
 
-    <ImageView
+   <!-- <ImageView
         android:layout_gravity="center_horizontal"
         android:layout_height="26dp"
         android:layout_width="5796dp"
@@ -25,12 +25,13 @@
         android:layout_width="5796dp"
         android:src="@android:drawable/divider_horizontal_bright"
         android:contentDescription="@string/Horizontaline" />
-
+-->
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editTextArtist"
         android:layout_gravity="center_horizontal"
+        android:inputType="text|textEmailAddress"
         android:hint="@string/artist"
         />
 
@@ -38,14 +39,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editTextTitle"
+        android:inputType="text|textEmailAddress"
         android:hint="@string/title"/>
 
     <Button
-        android:layout_width="152dp"
+        android:layout_width="218dp"
         android:layout_height="wrap_content"
         android:text="@string/button"
         android:id="@+id/button"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/buttonClear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/clear"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -55,6 +64,8 @@
             android:id="@+id/textViewLyrics"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_marginTop="10dp"
             android:layout_gravity="center"/>
     </ScrollView>
 
