@@ -4,23 +4,14 @@
 /.idea
 /idea
 # Built application files
-*.apk
-*.ap_
-
 # Files for the Dalvik VM
-*.dex
-
 # Java class files
-*.class
-
 # Generated files
 bin/
 gen/
 
 # Gradle files
 .gradle/
-build/
-
 # Local configuration file (sdk path, etc)
 local.properties
 
@@ -37,8 +28,6 @@ proguard/
 captures/
 
 .gradle
-build/
-
 # Ignore Gradle GUI config
 gradle-app.setting
 
@@ -47,13 +36,10 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
-*.class
-
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.ear
 

@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
@@ -15,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MyActivity extends Activity {
 
@@ -30,7 +32,8 @@ public class MyActivity extends Activity {
     private BroadcastReceiver broadcastReceiver;
 
     public static void hide_keyboard(Activity activity) {
-        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
         View view = activity.getCurrentFocus();
         //If no view currently has focus, create a new one, just so we can grab a window token from it
@@ -38,6 +41,13 @@ public class MyActivity extends Activity {
             view = new View(activity);
         }
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public boolean isNetworkAvailable(final Context context) {
+        final ConnectivityManager manager = ((ConnectivityManager)
+                context.getSystemService(CONNECTIVITY_SERVICE));
+        return manager.getActiveNetworkInfo() != null &&
+                manager.getActiveNetworkInfo().isConnected();
     }
 
     @Override
@@ -99,19 +109,26 @@ public class MyActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if (editTextArtist.getText().toString().length() > 2
-                    && editTextTitle.getText().length() > 0) {
-                        intent = new Intent(MyActivity.this, AZLyricsProvider.class);
-                        intent.putExtra("artist",
-                                editTextArtist.getText().toString().toLowerCase());
-                        intent.putExtra("title",
-                                editTextTitle.getText().toString().toLowerCase());
+                        && editTextTitle.getText().length() > 0) {
+                    intent = new Intent(MyActivity.this, AZLyricsProvider.class);
+                    intent.putExtra("artist",
+                            editTextArtist.getText().toString().toLowerCase());
+                    intent.putExtra("title",
+                            editTextTitle.getText().toString().toLowerCase());
+
+                    if (isNetworkAvailable(getBaseContext())) {
                         startService(intent); // launch lyrics search service
-                        ((InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE))
-                            .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+                    } else {
+                        Toast.makeText(MyActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                    }
+                    //close soft keyboard
+                    ((InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE))
+                            .hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                 }
             }
         });
 
+        //watch for button 'clear' clicks.
         clearButton = (Button) findViewById(R.id.buttonClear);
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
