@@ -57,16 +57,20 @@
         android:text="@string/clear"/>
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/scrollView">
-        <TextView
-            android:id="@+id/textViewLyrics"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center"/>
+            android:id="@+id/scroller"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10sp"
+            android:scrollbars="vertical"
+            android:fillViewport="true">
+            <TextView
+                    android:id="@+id/textViewLyrics"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:textSize="13sp"
+                    android:padding="5sp"
+            />
     </ScrollView>
 
 </LinearLayout>
