@@ -1,6 +1,7 @@
 # LyricsFetcher
 
-At this moment it fetch lyrics from one service - azlyrics.com
+At this moment it fetch lyrics from one service - azlyrics.com.
+
 I'm working on 
 * autocompletion - user write "me" in artist field and we show propositions, like metallica, metalhead, etc
 * saving lyrics txt to device 
