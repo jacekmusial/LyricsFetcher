@@ -18,7 +18,7 @@ public class HttpConnection
         this.url = url;
     }
 
-    public String a() {
+    public String getUrl() {
         URL obj = null;
         HttpURLConnection con = null;
         int numTries = 0;
