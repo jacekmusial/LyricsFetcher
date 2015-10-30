@@ -57,23 +57,52 @@ public class AZLyricsProvider extends Service {
         HttpConnection httpConnection = new HttpConnection(url);
 
         try {
-            response = httpConnection.a();
+            response = httpConnection.getUrl();
             Log.v(TAG, "Fetching url: " + u);
-            response = parse(response, url);
+            response = parse(response);
         } catch (Exception e) {
             Log.d(TAG, e.toString());
         }
         return response != null ? response : "" ;
     }
 
-    private String parse(String response, String url) {
-        //YOU STUPID
-        //WHAT'S NINE PLUS TEN?
-        String onlyLyrics = response.substring(
-                response.indexOf("Sorry about that. -->")+21,
-                response.length());
-        onlyLyrics = onlyLyrics.substring(0, onlyLyrics.indexOf("</div>"));
-        onlyLyrics = onlyLyrics.replaceAll("\"", "").replaceAll("<br>", "\n");
+    private String parse(String response) {
+        /**
+         * lyrics on azlyrics look like that:
+         * (e.g http://www.azlyrics.com/lyrics/hopsin/illmindofhopsin7.html)
+         * <div>
+         *     <!-- Usage of azlyrics.com content by any third-party lyrics provider
+         *     is prohibited by our licensing agreement. Sorry about that. -->
+         *     (OPTIONAL) <i>[intro:outro:something]</i>
+         *     <br>
+         *     "
+         *     line of lyric from song"
+         *     <br>
+         *     "
+         *     line of lyric from song"
+         *     ...
+         *     (OPTIONAL) <i> [intro:outro:something]</i>
+         * </div>
+         *
+         */
+        int startPosOfLyrics = response.indexOf("Sorry about that. -->")+21;
+        if (startPosOfLyrics <= 0) {
+            throw  new UnsupportedOperationException();
+        }
+        String lyricsAndCrap = response.substring(startPosOfLyrics, response.length());
+        int endPosOfLyrics = lyricsAndCrap.indexOf("</div>");
+
+        Log.v(TAG, "startPosOfLyrics: " + startPosOfLyrics + ", endPosOfLyrics: " + endPosOfLyrics);
+
+        String onlyLyrics = lyricsAndCrap.substring(0, endPosOfLyrics);
+        //if (onlyLyrics.indexOf("<i>") != 0 ) {
+        onlyLyrics = onlyLyrics.replaceAll("<i>", "").replaceAll("</i>", "");
+        //}
+        onlyLyrics = onlyLyrics.replaceAll("\"", "").replaceAll(
+                "<br>", System.getProperty("line.separator"));
+        //onlyLyrics = onlyLyrics.substring(0, onlyLyrics.indexOf("</div>"));
+        Log.v(TAG, onlyLyrics);
+
         return onlyLyrics;
     }
 }
