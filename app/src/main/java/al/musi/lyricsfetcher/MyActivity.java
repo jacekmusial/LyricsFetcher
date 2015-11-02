@@ -8,8 +8,6 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -30,6 +28,13 @@ public class MyActivity extends Activity {
 
     // Local broadcast
     private BroadcastReceiver broadcastReceiver;
+
+    public void hideKeyboard(){
+        InputMethodManager inputManager = (InputMethodManager)
+                this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(getParent().getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
+    }
 
     public static void hide_keyboard(Activity activity) {
         InputMethodManager inputMethodManager =
@@ -63,8 +68,16 @@ public class MyActivity extends Activity {
         // Unregister since the activity is paused.
         LocalBroadcastManager.getInstance(this).unregisterReceiver(
                 broadcastReceiver);
-        stopService(intent);
+        if (intent != null) {
+            stopService(intent);
+        }
         super.onPause();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //TODO write announce to press again back button to exit
     }
 
     @Override
@@ -90,7 +103,7 @@ public class MyActivity extends Activity {
         editTextArtist = (EditText) findViewById(R.id.editTextArtist);
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
 
-        editTextArtist.addTextChangedListener(new TextWatcher() {
+        /*editTextArtist.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -101,7 +114,7 @@ public class MyActivity extends Activity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //TODO implement
             }
-        });
+        });*/
 
         //Watch for button `search` clicks.
         myButton = (Button) findViewById(R.id.button);
@@ -122,8 +135,12 @@ public class MyActivity extends Activity {
                         Toast.makeText(MyActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
                     }
                     //close soft keyboard
-                    ((InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE))
-                            .hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    //hide_keyboard(getParent());
+                    InputMethodManager inputManager =
+                            (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.hideSoftInputFromWindow((null == getCurrentFocus()) ?
+                            null : getCurrentFocus().getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
                 }
             }
         });
