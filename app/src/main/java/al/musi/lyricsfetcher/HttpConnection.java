@@ -8,8 +8,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class HttpConnection
-{
+public class HttpConnection {
     private String url;
     private final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1";
     final static int MAX_RETRIES = 5;
